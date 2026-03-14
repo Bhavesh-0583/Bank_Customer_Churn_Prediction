@@ -4,7 +4,6 @@ import pickle
 
 # load model and scaler
 model = pickle.load(open("model.pkl","rb"))
-scaler = pickle.load(open("scaler.pkl","rb"))
 
 st.title("🏦 Bank Customer Churn Prediction")
 
@@ -44,13 +43,12 @@ input_data = pd.DataFrame({
 })
 
 # scale input
-input_scaled = scaler.transform(input_data)
+
 
 if st.button("Predict"):
 
-    prediction = model.predict(input_scaled)
-
-    prob = model.predict_proba(input_scaled)
+   prediction = model.predict(input_data)
+   prob = model.predict_proba(input_data)
 
     st.write("Churn Probability:", round(prob[0][1]*100,2), "%")
 
