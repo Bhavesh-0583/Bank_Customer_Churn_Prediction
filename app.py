@@ -37,7 +37,7 @@ input_data = pd.DataFrame({
 })
 
 # Scale
-input_scaled = scaler.transform(input_data)
+prediction = model.predict(input_data)
 
 # Prediction
 if st.button("Predict"):
