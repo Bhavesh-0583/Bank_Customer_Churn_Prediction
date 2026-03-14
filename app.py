@@ -1,49 +1,59 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import pickle
 
-# Load model
 model = pickle.load(open("model.pkl","rb"))
 
-st.title("🏦 Bank Customer Churn Prediction App")
+st.title("Bank Customer Churn Prediction")
 
-st.write("Predict whether a customer will leave the bank.")
-
-# User Inputs
-credit_score = st.number_input("Credit Score", 300, 900)
-age = st.slider("Age",18,100)
-tenure = st.slider("Tenure",0,10)
-
+credit_score = st.number_input("Credit Score")
+age = st.number_input("Age")
+tenure = st.number_input("Tenure")
 balance = st.number_input("Balance")
-num_products = st.slider("Number of Products",1,4)
-
+num_products = st.number_input("Number of Products")
 has_credit_card = st.selectbox("Has Credit Card",[0,1])
 is_active_member = st.selectbox("Is Active Member",[0,1])
-
 estimated_salary = st.number_input("Estimated Salary")
 
-# Input dataframe
-input_data = pd.DataFrame({
-    "CreditScore":[credit_score],
-    "Age":[age],
-    "Tenure":[tenure],
-    "Balance":[balance],
-    "NumOfProducts":[num_products],
-    "HasCrCard":[has_credit_card],
-    "IsActiveMember":[is_active_member],
-    "EstimatedSalary":[estimated_salary]
-})
+geography = st.selectbox("Geography",["France","Germany","Spain"])
+gender = st.selectbox("Gender",["Male","Female"])
 
-# Scale
-prediction = model.predict(input_data)
+# convert categorical variables
+geo_germany = 1 if geography=="Germany" else 0
+geo_spain = 1 if geography=="Spain" else 0
+gender_male = 1 if gender=="Male" else 0
 
-# Prediction
+# dataframe with SAME order as training
+input_data = pd.DataFrame([[
+credit_score,
+geo_germany,
+geo_spain,
+gender_male,
+age,
+tenure,
+balance,
+num_products,
+has_credit_card,
+is_active_member,
+estimated_salary
+]],columns=[
+'CreditScore',
+'Geography_Germany',
+'Geography_Spain',
+'Gender_Male',
+'Age',
+'Tenure',
+'Balance',
+'NumOfProducts',
+'HasCrCard',
+'IsActiveMember',
+'EstimatedSalary'
+])
+
 if st.button("Predict"):
+    prediction = model.predict(input_data)
 
-    prediction = model.predict(input_scaled)
-
-    if prediction[0] == 1:
-        st.error("⚠️ Customer will leave the bank")
+    if prediction[0]==1:
+        st.error("Customer will leave the bank")
     else:
-        st.success("✅ Customer will stay")
+        st.success("Customer will stay")
