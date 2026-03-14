@@ -47,11 +47,10 @@ st.write("Prediction Probability:", prob)
 
 
 if st.button("Predict"):
-
     prediction = model.predict(input_data)
     prob = model.predict_proba(input_data)
 
-    st.write("Churn Probability:", round(prob[0][1]*100,2), "%")
+    st.write("Churn Probability:", round(prob[0][1]*100, 2), "%")
 
     if prediction[0] == 1:
         st.error("⚠️ Customer will leave the bank")
