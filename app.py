@@ -47,8 +47,8 @@ input_data = pd.DataFrame({
 
 if st.button("Predict"):
 
-   prediction = model.predict(input_data)
-   prob = model.predict_proba(input_data)
+    prediction = model.predict(input_data)
+    prob = model.predict_proba(input_data)
 
     st.write("Churn Probability:", round(prob[0][1]*100,2), "%")
 
