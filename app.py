@@ -5,7 +5,6 @@ import pickle
 
 # Load model
 model = pickle.load(open("model.pkl","rb"))
-scaler = pickle.load(open("scaler.pkl","rb"))
 
 st.title("🏦 Bank Customer Churn Prediction App")
 
