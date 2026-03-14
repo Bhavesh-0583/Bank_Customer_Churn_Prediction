@@ -42,7 +42,8 @@ input_data = pd.DataFrame({
 'EstimatedSalary':[estimated_salary]
 })
 
-# scale input
+prob = model.predict_proba(input_data)
+st.write("Prediction Probability:", prob)
 
 
 if st.button("Predict"):
